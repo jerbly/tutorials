@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Raspberry Pi Tweetbox</title>
+	</head>
+
+	<body>
+		<form id="config_form" action="config" method="post">
+			<label for="config_track">Track:</label>
+			<input id="config_track" name="config_track" type="text" value="{{ config_track }}">
+			<br/>
+			<label for="config_red">Red:</label>
+			<input id="config_red" name="config_red" type="text" value="{{ config_red }}">
+			<br/>
+			<label for="config_green">Green:</label>
+			<input id="config_green" name="config_green" type="text" value="{{ config_green }}">
+			<br/>
+			<label for="config_blue">Blue:</label>
+			<input id="config_blue" name="config_blue" type="text" value="{{ config_blue }}">
+			<br/>
+			<label for="config_yellow">Yellow:</label>
+			<input id="config_yellow" name="config_yellow" type="text" value="{{ config_yellow }}">
+			<br/>
+			<label for="config_teal">Teal:</label>
+			<input id="config_teal" name="config_teal" type="text" value="{{ config_teal }}">
+			<br/>
+			<label for="config_violet">Violet:</label>
+			<input id="config_violet" name="config_violet" type="text" value="{{ config_violet }}">
+			<br/>
+			<button type="submit">Submit</button>
+		</form>
+	</body>
+</html>
+  

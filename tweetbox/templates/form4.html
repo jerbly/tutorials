@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Raspberry Pi Tweetbox</title>
+
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+		
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>	
+		
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">	
+	</head>
+
+	<body>
+		<h1>TweetBox</h1>
+		<form id="config_form" action="/" method="post" class="form-horizontal" role="form">
+  			<div class="form-group">
+				<label for="config_track" class="col-sm-1 control-label">Track:</label>
+				<div class="col-sm-2">
+					<input id="config_track" name="config_track" type="text" value="{{ config_track }}" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="config_red" class="col-sm-1 control-label">Red:</label>
+				<div class="col-sm-2">
+					<input id="config_red" name="config_red" type="text" value="{{ config_red }}" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="config_green" class="col-sm-1 control-label">Green:</label>
+				<div class="col-sm-2">
+					<input id="config_green" name="config_green" type="text" value="{{ config_green }}" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="config_blue" class="col-sm-1 control-label">Blue:</label>
+				<div class="col-sm-2">
+					<input id="config_blue" name="config_blue" type="text" value="{{ config_blue }}" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="config_yellow" class="col-sm-1 control-label">Yellow:</label>
+				<div class="col-sm-2">
+					<input id="config_yellow" name="config_yellow" type="text" value="{{ config_yellow }}" class="form-control">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="config_teal" class="col-sm-1 control-label">Teal:</label>
+				<div class="col-sm-2">
+					<input id="config_teal" name="config_teal" type="text" value="{{ config_teal }}" class="form-control">
+				</div>	
+			</div>
+			<div class="form-group">
+				<label for="config_violet" class="col-sm-1 control-label">Violet:</label>
+				<div class="col-sm-2">
+					<input id="config_violet" name="config_violet" type="text" value="{{ config_violet }}" class="form-control">
+				</div>	
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-1 col-sm-1">
+      				<button type="submit" class="btn btn-default">Submit</button>
+    			</div>
+			</div>
+		</form>
+		
+		<script>
+		$("form").submit(function(event) {
+			$("form button").html("Updating...").prop("disabled", true);
+		});
+		</script>		
+	</body>
+</html>
+  
