@@ -4,6 +4,7 @@ Created on Jul 12, 2014
 @author: jeremyblythe
 '''
 import pygame
+from pygame.locals import *
 import os
 from time import sleep
 import RPi.GPIO as GPIO
@@ -40,4 +41,12 @@ while True:
             rect = text_surface.get_rect(center=(160,120))
             lcd.blit(text_surface, rect)
             pygame.display.update()
+    # Scan touchscreen events
+    for event in pygame.event.get():
+        if(event.type is MOUSEBUTTONDOWN):
+            pos = pygame.mouse.get_pos()
+            print pos
+        elif(event.type is MOUSEBUTTONUP):
+            pos = pygame.mouse.get_pos()
+            print pos
     sleep(0.1)    
