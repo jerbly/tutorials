@@ -8,13 +8,13 @@ import os
 from time import sleep
 import RPi.GPIO as GPIO
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-
+#Note #21 changed to #27 for rev2 Pi
 button_map = {23:(255,0,0), 22:(0,255,0), 27:(0,0,255), 18:(0,0,0)}
+
+#Setup the GPIOs as inputs with Pull Ups since the buttons are connected to GND
+GPIO.setmode(GPIO.BCM)
+for k in button_map.keys():
+    GPIO.setup(k, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 os.putenv('SDL_FBDEV', '/dev/fb1')
 pygame.init()
@@ -26,7 +26,7 @@ pygame.display.update()
 while True:
     # Scan the buttons
     for (k,v) in button_map.items():
-        if GPIO.input(k) == True:
+        if GPIO.input(k) == False:
             lcd.fill(v)
             pygame.display.update()
     sleep(0.1)    
