@@ -9,12 +9,12 @@ from time import sleep
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(23, GPIO.IN)
-GPIO.setup(22, GPIO.IN)
-GPIO.setup(21, GPIO.IN)
-GPIO.setup(18, GPIO.IN)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-button_map = {23:(255,0,0), 22:(0,255,0), 21:(0,0,255), 28:(0,0,0)}
+button_map = {23:(255,0,0), 22:(0,255,0), 27:(0,0,255), 18:(0,0,0)}
 
 os.putenv('SDL_FBDEV', '/dev/fb1')
 pygame.init()
