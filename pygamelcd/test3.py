@@ -20,9 +20,9 @@ button_map = {23:(255,0,0), 22:(0,255,0), 27:(0,0,255), 18:(0,0,0)}
 #Colours
 WHITE = (255,255,255)
 
-# os.putenv('SDL_FBDEV', '/dev/fb1')
-# os.putenv('SDL_MOUSEDRV', 'TSLIB')
-# os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
+os.putenv('SDL_FBDEV', '/dev/fb1')
+os.putenv('SDL_MOUSEDRV', 'TSLIB')
+os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
 
 pygame.init()
 #pygame.mouse.set_visible(False)
