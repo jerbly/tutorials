@@ -7,15 +7,12 @@ import pygame
 from pygame.locals import *
 import os
 from time import sleep
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
-#Note #21 changed to #27 for rev2 Pi
-button_map = {23:(255,0,0), 22:(0,255,0), 27:(0,0,255), 18:(0,0,0)}
-
-#Setup the GPIOs as inputs with Pull Ups since the buttons are connected to GND
-# GPIO.setmode(GPIO.BCM)
-# for k in button_map.keys():
-#     GPIO.setup(k, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+#Setup the GPIOs as outputs - only 4 and 17 are available
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(4, GPIO.OUT)
+GPIO.setup(17, GPIO.OUT)
 
 #Colours
 WHITE = (255,255,255)
@@ -25,31 +22,23 @@ os.putenv('SDL_MOUSEDRV', 'TSLIB')
 os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
 
 pygame.init()
-#pygame.mouse.set_visible(False)
+pygame.mouse.set_visible(False)
 lcd = pygame.display.set_mode((320, 240))
 lcd.fill((0,0,0))
 pygame.display.update()
 
-font_big = pygame.font.Font(None, 100)
+font_big = pygame.font.Font(None, 50)
 
-touch_buttons = {1:(80,60), 2:(240,60), 3:(80,180), 4:(240,180)}
+touch_buttons = {'4 on':(80,60), '17 on':(240,60), '4 off':(80,180), '17 off':(240,180)}
 
 for k,v in touch_buttons.items():
-    text_surface = font_big.render('%d'%k, True, WHITE)
+    text_surface = font_big.render('%s'%k, True, WHITE)
     rect = text_surface.get_rect(center=v)
     lcd.blit(text_surface, rect)
 
 pygame.display.update()
 
 while True:
-    # Scan the buttons
-#     for (k,v) in button_map.items():
-#         if GPIO.input(k) == False:
-#             lcd.fill(v)
-#             text_surface = font_big.render('%d'%k, True, WHITE)
-#             rect = text_surface.get_rect(center=(160,120))
-#             lcd.blit(text_surface, rect)
-#             pygame.display.update()
     # Scan touchscreen events
     for event in pygame.event.get():
         if(event.type is MOUSEBUTTONDOWN):
@@ -62,13 +51,17 @@ while True:
             x,y = pos
             if y < 120:
                 if x < 160:
-                    print "1"
+                    print "4 on"
+                    GPIO.output(4, True)
                 else:
-                    print "2"
+                    print "17 on"
+                    GPIO.output(17, True)
             else:
                 if x < 160:
-                    print "3"
+                    print "4 off"
+                    GPIO.output(4, False)
                 else:
-                    print "4"
+                    print "17 off"
+                    GPIO.output(17, False)
                 
     sleep(0.1)    
