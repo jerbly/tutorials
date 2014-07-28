@@ -3,7 +3,7 @@ Created on Jul 12, 2014
 
 @author: jeremyblythe
 '''
-# import pygame
+import pygame
 # from pygame.locals import *
 import os
 # from time import sleep
@@ -36,13 +36,32 @@ class PiTft(ui.Scene):
     def __init__(self):
         ui.Scene.__init__(self)
 
-        label_height = ui.theme.current.label_height
-        scrollbar_size = ui.SCROLLBAR_SIZE
+        self.on17_button = ui.Button(ui.Rect(MARGIN, MARGIN, 130, 90), '17 on')
+        self.on17_button.on_clicked.connect(self.gpi_button)
+        self.add_child(self.on17_button)
 
-        frame = ui.Rect(MARGIN, MARGIN, 200, label_height)
-        self.name_textfield = ui.TextField(frame, placeholder='Your name')
-        self.name_textfield.centerx = self.frame.centerx
-        self.add_child(self.name_textfield)
+        self.on4_button = ui.Button(ui.Rect(170, MARGIN, 130, 90), '4 on')
+        self.on4_button.on_clicked.connect(self.gpi_button)
+        self.add_child(self.on4_button)
+
+        self.off17_button = ui.Button(ui.Rect(MARGIN, 130, 130, 90), '17 off')
+        self.off17_button.on_clicked.connect(self.gpi_button)
+        self.add_child(self.off17_button)
+
+        self.off4_button = ui.Button(ui.Rect(170, 130, 130, 90), '4 off')
+        self.off4_button.on_clicked.connect(self.gpi_button)
+        self.add_child(self.off4_button)
+
+    def gpi_button(self, btn, mbtn):
+        logger.info(btn.text)
+
+#         label_height = ui.theme.current.label_height
+#         scrollbar_size = ui.SCROLLBAR_SIZE
+
+#         frame = ui.Rect(MARGIN, MARGIN, 200, label_height)
+#         self.name_textfield = ui.TextField(frame, placeholder='Your name')
+#         self.name_textfield.centerx = self.frame.centerx
+#         self.add_child(self.name_textfield)
 
 #         gridview = ui.GridView(ui.Rect(0, 0, 500, 500))
 #         self.scroll_gridview = ui.ScrollView(ui.Rect(
@@ -62,11 +81,11 @@ class PiTft(ui.Scene):
 #             LIST_WIDTH, 80), list_view)
 #         self.add_child(self.scroll_list)
 
-        self.greet_button = ui.Button(ui.Rect(
-            self.name_textfield.frame.right + SMALL_MARGIN,
-            self.name_textfield.frame.top, 0, 0), 'Submit')
-        self.greet_button.on_clicked.connect(self.greet)
-        self.add_child(self.greet_button)
+#         self.greet_button = ui.Button(ui.Rect(
+#             self.name_textfield.frame.right + SMALL_MARGIN,
+#             self.name_textfield.frame.top, 0, 0), 'Submit')
+#         self.greet_button.on_clicked.connect(self.greet)
+#         self.add_child(self.greet_button)
 
 #         self.image_view = ui.view_for_image_named('logo')
 #         self.image_view.frame.right = self.frame.right - MARGIN
@@ -228,6 +247,7 @@ class PiTft(ui.Scene):
 
 if __name__ == '__main__':
     ui.init('Raspberry Pi UI', (320, 240))
+    #pygame.mouse.set_visible(False)
     ui.scene.push(PiTft())
     ui.run()
 
