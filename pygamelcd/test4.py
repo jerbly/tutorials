@@ -63,6 +63,7 @@ class PiTft(ui.Scene):
             GPIO.output(4, True)
 
 ui.init('Raspberry Pi UI', (320, 240))
+pygame.mouse.set_visible(False)
 ui.scene.push(PiTft())
 ui.run()
 
