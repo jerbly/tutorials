@@ -64,15 +64,16 @@ os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
 
 MARGIN = 20
 
-volts = 0
-
 class PotReader():
+    def __init__(self, pitft):
+        self.pitft = pitft
+        
     def __call__(self):
-        global volts
         while True:
             # Read channel 0 in single-ended mode using the settings above
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
-            print "%.6f" % (volts)
+            #print "%.6f" % (volts)
+            pitft.set_progress(volts / 3.3)
 
 class PiTft(ui.Scene):
     def __init__(self):
@@ -111,18 +112,22 @@ class PiTft(ui.Scene):
         elif btn.text == '4 off':
             GPIO.output(4, True)
 
+    def set_progress(self, percent):
+        self.progress = percent
+
     def update(self, dt):
-        global volts
         ui.Scene.update(self, dt)
-        self.progress_view.progress = volts / 3.3
+        self.progress_view.progress = self.progress
+
+pitft = PiTft()
 
 # Start the thread running the callable
-potreader = PotReader()
+potreader = PotReader(pitft)
 threading.Thread(target=potreader).start()
 
 ui.init('Raspberry Pi UI', (320, 240))
 pygame.mouse.set_visible(False)
-ui.scene.push(PiTft())
+ui.scene.push(pitft)
 ui.run()
 
 
