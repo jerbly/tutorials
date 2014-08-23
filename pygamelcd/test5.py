@@ -14,12 +14,7 @@ import RPi.GPIO as GPIO
 import signal
 from Adafruit_ADS1x15 import ADS1x15
 import threading
-
-def signal_handler(signal, frame):
-        print 'You pressed Ctrl+C!'
-        sys.exit(0)
-signal.signal(signal.SIGINT, signal_handler)
-#print 'Press Ctrl+C to exit'
+import time
 
 ADS1015 = 0x00  # 12-bit ADC
 ADS1115 = 0x01  # 16-bit ADC
@@ -67,13 +62,18 @@ MARGIN = 20
 class PotReader():
     def __init__(self, pitft):
         self.pitft = pitft
+        self.terminated = False
+        
+    def terminate(self):
+        self.terminate = True
         
     def __call__(self):
-        while True:
+        while not self.terminated:
             # Read channel 0 in single-ended mode using the settings above
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
             #print "%.6f" % (volts)
             pitft.set_progress(volts / 3.3)
+            time.sleep(1)
 
 class PiTft(ui.Scene):
     def __init__(self):
@@ -124,6 +124,13 @@ pitft = PiTft()
 # Start the thread running the callable
 potreader = PotReader(pitft)
 threading.Thread(target=potreader).start()
+
+def signal_handler(signal, frame):
+    print 'You pressed Ctrl+C!'
+    potreader.terminate()
+    sys.exit(0)
+        
+signal.signal(signal.SIGINT, signal_handler)
 
 ui.init('Raspberry Pi UI', (320, 240))
 pygame.mouse.set_visible(False)
