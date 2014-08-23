@@ -59,5 +59,4 @@ while True:
                     GPIO.output(17, True)
                 else:
                     GPIO.output(4, True)
-                
     sleep(0.1)    
