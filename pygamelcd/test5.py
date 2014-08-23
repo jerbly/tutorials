@@ -68,6 +68,7 @@ volts = 0
 
 class PotReader():
     def __call__(self):
+        global volts
         while True:
             # Read channel 0 in single-ended mode using the settings above
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
@@ -111,6 +112,7 @@ class PiTft(ui.Scene):
             GPIO.output(4, True)
 
     def update(self, dt):
+        global volts
         ui.Scene.update(self, dt)
         self.progress_view.progress = volts / 3.3
 
