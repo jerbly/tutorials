@@ -65,14 +65,14 @@ class PotReader():
         self.terminated = False
         
     def terminate(self):
-        self.terminate = True
+        self.terminated = True
         
     def __call__(self):
         while not self.terminated:
             # Read channel 0 in single-ended mode using the settings above
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
             #print "%.6f" % (volts)
-            pitft.set_progress(volts / 3.3)
+            self.pitft.set_progress(volts / 3.3)
             time.sleep(1)
 
 class PiTft(ui.Scene):
