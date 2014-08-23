@@ -13,6 +13,7 @@ import logging
 import RPi.GPIO as GPIO
 import signal
 from Adafruit_ADS1x15 import ADS1x15
+import threading
 
 def signal_handler(signal, frame):
         print 'You pressed Ctrl+C!'
@@ -63,6 +64,15 @@ os.putenv('SDL_MOUSEDEV', '/dev/input/touchscreen')
 
 MARGIN = 20
 
+volts = 0
+
+class PotReader():
+    def __call__(self):
+        while True:
+            # Read channel 0 in single-ended mode using the settings above
+            volts = adc.readADCSingleEnded(0, gain, sps) / 1000
+            print "%.6f" % (volts)
+
 class PiTft(ui.Scene):
     def __init__(self):
         ui.Scene.__init__(self)
@@ -102,10 +112,11 @@ class PiTft(ui.Scene):
 
     def update(self, dt):
         ui.Scene.update(self, dt)
-        # Read channel 0 in single-ended mode using the settings above
-        volts = adc.readADCSingleEnded(0, gain, sps) / 1000
-        print "%.6f" % (volts)
         self.progress_view.progress = volts / 3.3
+
+# Start the thread running the callable
+potreader = PotReader()
+threading.Thread(target=potreader).start()
 
 ui.init('Raspberry Pi UI', (320, 240))
 pygame.mouse.set_visible(False)
