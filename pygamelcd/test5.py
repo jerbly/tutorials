@@ -3,11 +3,47 @@ Created on Jul 26, 2014
 
 @author: jeremyblythe
 '''
+import sys
+sys.path.append('/home/pi/Adafruit-Raspberry-Pi-Python-Code/Adafruit_ADS1x15')
+
 import pygame
 import os
 import pygameui as ui
 import logging
 import RPi.GPIO as GPIO
+import signal
+from Adafruit_ADS1x15 import ADS1x15
+
+def signal_handler(signal, frame):
+        print 'You pressed Ctrl+C!'
+        sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+#print 'Press Ctrl+C to exit'
+
+ADS1015 = 0x00  # 12-bit ADC
+ADS1115 = 0x01  # 16-bit ADC
+
+# Select the gain
+# gain = 6144  # +/- 6.144V
+gain = 4096  # +/- 4.096V
+# gain = 2048  # +/- 2.048V
+# gain = 1024  # +/- 1.024V
+# gain = 512   # +/- 0.512V
+# gain = 256   # +/- 0.256V
+
+# Select the sample rate
+sps = 8    # 8 samples per second
+# sps = 16   # 16 samples per second
+# sps = 32   # 32 samples per second
+# sps = 64   # 64 samples per second
+# sps = 128  # 128 samples per second
+# sps = 250  # 250 samples per second
+# sps = 475  # 475 samples per second
+# sps = 860  # 860 samples per second
+
+# Initialise the ADC using the default mode (use default I2C address)
+# Set this to ADS1015 or ADS1115 depending on the ADC you are using!
+adc = ADS1x15(ic=ADS1115)
 
 #Setup the GPIOs as outputs - only 4 and 17 are available
 GPIO.setmode(GPIO.BCM)
@@ -66,10 +102,10 @@ class PiTft(ui.Scene):
 
     def update(self, dt):
         ui.Scene.update(self, dt)
-        self.progress_view.progress = self.progress
-        self.progress += 0.01
-        if self.progress > 1.0:
-            self.progress = 0
+        # Read channel 0 in single-ended mode using the settings above
+        volts = adc.readADCSingleEnded(0, gain, sps) / 1000
+        print "%.6f" % (volts)
+        self.progress_view.progress = volts / 3.3
 
 ui.init('Raspberry Pi UI', (320, 240))
 pygame.mouse.set_visible(False)
