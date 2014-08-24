@@ -73,7 +73,7 @@ class PotReader():
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
             #print "%.6f" % (volts)
             self.pitft.set_progress(volts / 3.3)
-            time.sleep(1)
+            #time.sleep(1)
 
 class PiTft(ui.Scene):
     def __init__(self):
