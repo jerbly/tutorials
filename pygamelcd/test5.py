@@ -119,6 +119,10 @@ class PiTft(ui.Scene):
         ui.Scene.update(self, dt)
         self.progress_view.progress = self.progress
 
+
+ui.init('Raspberry Pi UI', (320, 240))
+pygame.mouse.set_visible(False)
+
 pitft = PiTft()
 
 # Start the thread running the callable
@@ -132,8 +136,6 @@ def signal_handler(signal, frame):
         
 signal.signal(signal.SIGINT, signal_handler)
 
-ui.init('Raspberry Pi UI', (320, 240))
-pygame.mouse.set_visible(False)
 ui.scene.push(pitft)
 ui.run()
 
