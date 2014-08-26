@@ -72,6 +72,7 @@ class PotReader():
             # Read channel 0 in single-ended mode using the settings above
             volts = adc.readADCSingleEnded(0, gain, sps) / 1000
             #print "%.6f" % (volts)
+            self.pitft.set_volts_label(volts)
             self.pitft.set_progress(volts / 3.3)
             #time.sleep(1)
 
@@ -95,8 +96,11 @@ class PiTft(ui.Scene):
         self.off4_button.on_clicked.connect(self.gpi_button)
         self.add_child(self.off4_button)
 
-        self.progress_view = ui.ProgressView(ui.Rect(MARGIN, 180, 280, 40))
+        self.progress_view = ui.ProgressView(ui.Rect(MARGIN, 200, 280, 40))
         self.add_child(self.progress_view)
+
+        self.volts_value = ui.Label(ui.Rect(135, 170, 50, 30), '')
+        self.add_child(self.volts_value)
 
         self.progress = 0
 
@@ -113,11 +117,15 @@ class PiTft(ui.Scene):
             GPIO.output(4, True)
 
     def set_progress(self, percent):
-        self.progress = percent
+        #self.progress = percent
+        self.progress_view.progress = percent
+        
+    def set_volts_label(self, volts):
+        self.volts_value.text = '%.2f' % volts
 
     def update(self, dt):
         ui.Scene.update(self, dt)
-        self.progress_view.progress = self.progress
+        
 
 
 ui.init('Raspberry Pi UI', (320, 240))
