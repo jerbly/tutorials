@@ -52,8 +52,11 @@ class PiTft(ui.Scene):
         self.off4_button.on_clicked.connect(self.gpi_button)
         self.add_child(self.off4_button)
 
-        self.progress_view = ui.ProgressView(ui.Rect(MARGIN, 180, 280, 40))
+        self.progress_view = ui.ProgressView(ui.Rect(MARGIN, 200, 280, 40))
         self.add_child(self.progress_view)
+
+        self.volts_value = ui.Label(ui.Rect(135, 170, 50, 30), 'Hi!')
+        self.add_child(self.volts_value)
 
         self.progress = 0
         
@@ -172,11 +175,7 @@ class PiTft(ui.Scene):
 #         self.vslider.on_value_changed.connect(self.value_changed)
 #         self.add_child(self.vslider)
 # 
-#         self.slider_value = ui.Label(ui.Rect(
-#             self.hslider.frame.centerx - 25,
-#             self.hslider.frame.bottom + MARGIN,
-#             50, label_height), '')
-#         self.add_child(self.slider_value)
+
 # 
 #         self.spinner = ui.SpinnerView(ui.Rect(
 #             self.frame.right - MARGIN - ui.SpinnerView.size,
@@ -239,6 +238,7 @@ class PiTft(ui.Scene):
 
     def update(self, dt):
         ui.Scene.update(self, dt)
+        self.volts_value.text = '%.2f' % self.progress
         self.progress_view.progress = self.progress
         self.progress += 0.01
         if self.progress > 1.0:
